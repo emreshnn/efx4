@@ -952,26 +952,26 @@
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Ad</label>
-            <input class="form-input" type="text" placeholder="Adınız" required>
+            <input class="form-input" type="text" name="ad" placeholder="Adınız" required>
           </div>
           <div class="form-group">
             <label class="form-label">Soyad</label>
-            <input class="form-input" type="text" placeholder="Soyadınız" required>
+            <input class="form-input" type="text" name="soyad" placeholder="Soyadınız" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Telefon</label>
-            <input class="form-input" type="tel" placeholder="+90 ___ ___ ____" required>
+            <input class="form-input" type="tel" name="telefon" placeholder="+90 ___ ___ ____" required>
           </div>
           <div class="form-group">
             <label class="form-label">E-posta</label>
-            <input class="form-input" type="email" placeholder="ornek@mail.com" required>
+            <input class="form-input" type="email" name="email" placeholder="ornek@mail.com" required>
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">İlgilendiğiniz Program</label>
-          <select class="form-select">
+          <select class="form-select" name="program">
             <option value="" disabled selected>Program seçin...</option>
             <option>Fitness & Ağırlık</option>
             <option>CrossFit</option>
@@ -983,7 +983,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">Mesajınız</label>
-          <textarea class="form-textarea" placeholder="Hedeflerinizden ve beklentilerinizden bahsedin..."></textarea>
+          <textarea class="form-textarea" name="mesaj" placeholder="Hedeflerinizden ve beklentilerinizden bahsedin..."></textarea>
         </div>
         <button type="submit" class="submit-btn">FORMU GÖNDER ◆</button>
       </form>
@@ -1133,6 +1133,22 @@
   // Form
   function handleForm(e) {
     e.preventDefault();
+    try {
+      const fd = new FormData(e.target);
+      const subs = JSON.parse(localStorage.getItem('efx4_submissions') || '[]');
+      subs.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        ts: Date.now(),
+        ad:      fd.get('ad')      || '',
+        soyad:   fd.get('soyad')   || '',
+        telefon: fd.get('telefon') || '',
+        email:   fd.get('email')   || '',
+        program: fd.get('program') || '',
+        mesaj:   fd.get('mesaj')   || '',
+        read: false
+      });
+      localStorage.setItem('efx4_submissions', JSON.stringify(subs));
+    } catch(_) {}
     const btn = e.target.querySelector('.submit-btn');
     btn.textContent = 'GÖNDERİLDİ ◆ TEŞEKKÜRLER';
     btn.style.background = 'linear-gradient(135deg,#2d6a2d,#3a8a3a)';
