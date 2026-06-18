@@ -328,11 +328,11 @@
     /* ── TESİSLER ── */
     #tesisler { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .facilities-layout {
-      display: grid; grid-template-columns: 5fr 4fr; grid-template-rows: 1fr 1fr;
-      gap: 1px; background: var(--border); max-width: 1200px; margin: 0 auto; height: 500px;
+      display: grid; grid-template-columns: 5fr 4fr; grid-template-rows: 1fr;
+      gap: 1px; background: var(--border); max-width: 1200px; margin: 0 auto; height: 380px;
     }
     .fac-card { position: relative; overflow: hidden; background: var(--surface2); }
-    .fac-card.tall { grid-row: span 2; }
+    .fac-card.tall { grid-row: span 1; }
     .fac-grad { position: absolute; inset: 0; }
     .fg1 { background: linear-gradient(135deg,#1a0f08 0%,#2a1a0a 50%,#150b06 100%); }
     .fg2 { background: linear-gradient(135deg,#0f0f1a 0%,#1a1a2d 100%); }
@@ -407,7 +407,7 @@
     /* ── EĞİTMENLER ── */
     #egitmenler { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .trainers-grid {
-      display: grid; grid-template-columns: repeat(4,1fr);
+      display: grid; grid-template-columns: repeat(3,1fr);
       gap: 1px; background: var(--border); max-width: 1200px; margin: 0 auto;
     }
     .trainer-card { background: var(--surface); overflow: hidden; }
@@ -590,8 +590,7 @@
       .contact-layout{grid-template-columns:1fr;gap:3rem}
       .footer-top{grid-template-columns:1fr 1fr;gap:2.5rem}
       .facilities-layout{grid-template-columns:1fr 1fr;height:auto}
-      .fac-card.tall{grid-row:span 1}
-      .facilities-layout .fac-card .fac-grad,.facilities-layout .fac-card{min-height:220px}
+      .facilities-layout .fac-card{min-height:220px}
       .co{display:none}
     }
     @media(max-width:640px){
@@ -692,15 +691,15 @@
       <div class="stat-label">Aktif Üye</div>
     </div>
     <div class="stat-item reveal rd1">
-      <div class="stat-number" data-count="15" data-suf="+">0</div>
+      <div class="stat-number" data-count="3" data-suf="+">0</div>
       <div class="stat-label">Uzman Eğitmen</div>
     </div>
     <div class="stat-item reveal rd2">
-      <div class="stat-number" data-count="2000" data-suf="m²">0</div>
+      <div class="stat-number" data-count="850" data-suf="m²">0</div>
       <div class="stat-label">Kapalı Alan</div>
     </div>
     <div class="stat-item reveal rd3">
-      <div class="stat-number" data-count="8" data-suf="+">0</div>
+      <div class="stat-number" data-count="6" data-suf="+">0</div>
       <div class="stat-label">Yıl Tecrübe</div>
     </div>
   </div>
@@ -726,37 +725,30 @@
     </div>
     <div class="service-card reveal rd1">
       <div class="svc-num">02</div>
-      <div class="svc-icon-box" id="svcIcon2">⚡</div>
-      <h3 class="svc-name" id="svcName2">CrossFit</h3>
-      <p class="svc-desc" id="svcDesc2">Fonksiyonel hareketler ve yüksek yoğunluklu interval antrenmanları ile sınırlarını zorla. WOD programı her gün farklı zorluklar sunar.</p>
+      <div class="svc-icon-box" id="svcIcon2">🧘</div>
+      <h3 class="svc-name" id="svcName2">Pilates</h3>
+      <p class="svc-desc" id="svcDesc2">Esneklik, denge ve zihin-beden bütünlüğü için özel donanımlı stüdyomuzda reformer pilates seansları. Her seviyeye uygun gruplar.</p>
       <a href="#iletisim" class="svc-link">Detaylar →</a>
     </div>
     <div class="service-card reveal rd2">
       <div class="svc-num">03</div>
-      <div class="svc-icon-box" id="svcIcon3">🧘</div>
-      <h3 class="svc-name" id="svcName3">Pilates & Yoga</h3>
-      <p class="svc-desc" id="svcDesc3">Esneklik, denge ve zihin-beden bütünlüğü için özel donanımlı stüdyomuzda reformer pilates ve yoga seansları. İç huzurunu keşfet.</p>
+      <div class="svc-icon-box" id="svcIcon3">🥊</div>
+      <h3 class="svc-name" id="svcName3">Boks & Kickboks</h3>
+      <p class="svc-desc" id="svcDesc3">Profesyonel ekipmanlar ve uzman antrenörler eşliğinde boks ve kickboks antrenmanları. Kondisyon, refleks ve özgüveni geliştir. Tüm yaşlara uygun.</p>
       <a href="#iletisim" class="svc-link">Detaylar →</a>
     </div>
     <div class="service-card reveal rd1">
       <div class="svc-num">04</div>
-      <div class="svc-icon-box" id="svcIcon4">🥊</div>
-      <h3 class="svc-name" id="svcName4">Boks & Kickboks</h3>
-      <p class="svc-desc" id="svcDesc4">Profesyonel ekipmanlar ve uzman antrenörler eşliğinde boks ve kickboks antrenmanları. Kondisyon, refleks ve özgüveni geliştir. Tüm yaşlara uygun.</p>
+      <div class="svc-icon-box" id="svcIcon4">♀️</div>
+      <h3 class="svc-name" id="svcName4">Kadınlara Özel Alan</h3>
+      <p class="svc-desc" id="svcDesc4">Tamamen kadınlara ayrılmış özel çalışma alanı. Konforlu, özgür ve güvenli bir ortamda fitness, pilates ve kardiyo programlarınızı uygulayın.</p>
       <a href="#iletisim" class="svc-link">Detaylar →</a>
     </div>
     <div class="service-card reveal rd2">
       <div class="svc-num">05</div>
-      <div class="svc-icon-box" id="svcIcon5">♀️</div>
-      <h3 class="svc-name" id="svcName5">Kadınlara Özel Alan</h3>
-      <p class="svc-desc" id="svcDesc5">Tamamen kadınlara ayrılmış özel çalışma alanı. Konforlu, özgür ve güvenli bir ortamda fitness, pilates ve kardiyo programlarınızı uygulayın.</p>
-      <a href="#iletisim" class="svc-link">Detaylar →</a>
-    </div>
-    <div class="service-card reveal rd3">
-      <div class="svc-num">06</div>
-      <div class="svc-icon-box" id="svcIcon6">🏃</div>
-      <h3 class="svc-name" id="svcName6">Kişisel Antrenman</h3>
-      <p class="svc-desc" id="svcDesc6">1'e 1 eğitmen desteğiyle hedeflerine odaklanmış özel program. Beslenme danışmanlığı, ilerleme takibi ve sürekli motivasyon desteği.</p>
+      <div class="svc-icon-box" id="svcIcon5">🏃</div>
+      <h3 class="svc-name" id="svcName5">Kişisel Antrenman</h3>
+      <p class="svc-desc" id="svcDesc5">1'e 1 eğitmen desteğiyle hedeflerine odaklanmış özel program. Beslenme danışmanlığı, ilerleme takibi ve sürekli motivasyon desteği.</p>
       <a href="#iletisim" class="svc-link">Detaylar →</a>
     </div>
   </div>
@@ -779,19 +771,10 @@
       <div class="fac-tag">Ana Salon</div>
       <div class="fac-info">
         <div class="fac-name">Ana Fitness Salonu</div>
-        <div class="fac-detail">1200m² · 200+ Ekipman · 24 İstasyon</div>
+        <div class="fac-detail">700m² · 150+ Ekipman · 20 İstasyon</div>
       </div>
     </div>
     <div class="fac-card reveal rd1">
-      <div class="fac-grad fg2"></div>
-      <div class="fac-deco">⚡</div>
-      <div class="fac-tag">CrossFit</div>
-      <div class="fac-info">
-        <div class="fac-name">CrossFit Alanı</div>
-        <div class="fac-detail">400m² · Açık Rig · Olimpik Platform</div>
-      </div>
-    </div>
-    <div class="fac-card reveal rd2">
       <div class="fac-grad fg3"></div>
       <div class="fac-deco">🧘</div>
       <div class="fac-tag">Stüdyo</div>
@@ -826,7 +809,7 @@
         <li class="on"><span class="fi">◆</span>Soyunma odası & duş</li>
         <li class="on"><span class="fi">◆</span>Ayda 2 grup dersi</li>
         <li><span class="fi">—</span>Kişisel antrenman</li>
-        <li><span class="fi">—</span>CrossFit & Spinning</li>
+        <li><span class="fi">—</span>Spinning & Kardiyo</li>
         <li><span class="fi">—</span>Beslenme danışmanlığı</li>
       </ul>
       <a href="#iletisim" class="plan-btn btn-bd">Başla</a>
@@ -844,7 +827,7 @@
         <li class="on"><span class="fi">◆</span>Soyunma odası & sauna</li>
         <li class="on"><span class="fi">◆</span>Sınırsız grup dersleri</li>
         <li class="on"><span class="fi">◆</span>Aylık 2 PT seansı</li>
-        <li class="on"><span class="fi">◆</span>CrossFit & Spinning</li>
+        <li class="on"><span class="fi">◆</span>Spinning & Kardiyo</li>
         <li><span class="fi">—</span>Beslenme danışmanlığı</li>
       </ul>
       <a href="#iletisim" class="plan-btn btn-gl">Hemen Başla</a>
@@ -861,7 +844,7 @@
         <li class="on"><span class="fi">◆</span>VIP soyunma & spa</li>
         <li class="on"><span class="fi">◆</span>Sınırsız tüm dersler</li>
         <li class="on"><span class="fi">◆</span>Haftalık 3 PT seansı</li>
-        <li class="on"><span class="fi">◆</span>CrossFit & Spinning</li>
+        <li class="on"><span class="fi">◆</span>Spinning & Kardiyo</li>
         <li class="on"><span class="fi">◆</span>Beslenme planı & takip</li>
       </ul>
       <a href="#iletisim" class="plan-btn btn-bd">Başla</a>
@@ -901,7 +884,7 @@
       <div class="t-spec" id="trSpec2">Pilates</div>
       <div class="trainer-info">
         <div class="trainer-name" id="trName2">Ayşe Kaya</div>
-        <div class="trainer-role" id="trRole2">Pilates & Yoga Uzmanı</div>
+        <div class="trainer-role" id="trRole2">Pilates Uzmanı</div>
         <div class="trainer-exp" id="trExp2">8 yıl deneyim · Balanced Body</div>
         <div class="trainer-sep"></div>
         <div class="trainer-social"><a href="#">IG</a><a href="#">IN</a></div>
@@ -909,26 +892,13 @@
     </div>
     <div class="trainer-card reveal rd2">
       <div class="trainer-photo tp3">
-        <div class="trainer-photo-inner"><div class="t-sil">🧑</div></div>
-      </div>
-      <div class="t-spec" id="trSpec3">CrossFit</div>
-      <div class="trainer-info">
-        <div class="trainer-name" id="trName3">Can Demir</div>
-        <div class="trainer-role" id="trRole3">CrossFit L3 Koçu</div>
-        <div class="trainer-exp" id="trExp3">10 yıl deneyim · CF-L3 Sertifikalı</div>
-        <div class="trainer-sep"></div>
-        <div class="trainer-social"><a href="#">IG</a><a href="#">IN</a></div>
-      </div>
-    </div>
-    <div class="trainer-card reveal rd3">
-      <div class="trainer-photo tp4">
         <div class="trainer-photo-inner"><div class="t-sil">👩</div></div>
       </div>
-      <div class="t-spec" id="trSpec4">Boks</div>
+      <div class="t-spec" id="trSpec3">Boks</div>
       <div class="trainer-info">
-        <div class="trainer-name" id="trName4">Selin Arslan</div>
-        <div class="trainer-role" id="trRole4">Muay Thai & Boks Antrenörü</div>
-        <div class="trainer-exp" id="trExp4">7 yıl deneyim · Ulusal Şampiyon</div>
+        <div class="trainer-name" id="trName3">Selin Arslan</div>
+        <div class="trainer-role" id="trRole3">Muay Thai & Boks Antrenörü</div>
+        <div class="trainer-exp" id="trExp3">7 yıl deneyim · Ulusal Şampiyon</div>
         <div class="trainer-sep"></div>
         <div class="trainer-social"><a href="#">IG</a><a href="#">IN</a></div>
       </div>
@@ -974,10 +944,9 @@
           <select class="form-select" name="program">
             <option value="" disabled selected>Program seçin...</option>
             <option>Fitness & Ağırlık</option>
-            <option>CrossFit</option>
-            <option>Pilates & Yoga</option>
+            <option>Pilates</option>
             <option>Boks & Muay Thai</option>
-            <option>Spinning & Cardio</option>
+            <option>Spinning & Kardiyo</option>
             <option>Kişisel Antrenman</option>
           </select>
         </div>
@@ -1046,10 +1015,10 @@
       <div class="footer-col-title">Hizmetler</div>
       <ul class="footer-links">
         <li><a href="#">Fitness & Ağırlık</a></li>
-        <li><a href="#">CrossFit</a></li>
-        <li><a href="#">Pilates & Yoga</a></li>
+        <li><a href="#">Pilates</a></li>
         <li><a href="#">Boks & Muay Thai</a></li>
-        <li><a href="#">Spinning</a></li>
+        <li><a href="#">Spinning & Kardiyo</a></li>
+        <li><a href="#">Kişisel Antrenman</a></li>
       </ul>
     </div>
     <div>
