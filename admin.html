@@ -205,6 +205,8 @@
     /* PASS ROW */
     .passrow{display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end;max-width:560px}
   </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -427,6 +429,9 @@
 </div>
 
 <script>
+firebase.initializeApp({apiKey:'AIzaSyBjzTWs4f-FMuGqPhJqB20s5tHr9gAAqc8',authDomain:'fastandfit-fa614.firebaseapp.com',databaseURL:'https://fastandfit-fa614-default-rtdb.europe-west1.firebasedatabase.app',projectId:'fastandfit-fa614',storageBucket:'fastandfit-fa614.firebasestorage.app',messagingSenderId:'990251315323',appId:'1:990251315323:web:55fefa9889fa8358d1f2de'});
+const fbDb=firebase.database();
+const FB_ROOT='efx4';
 const K={sess:'efx4_session',subs:'efx4_submissions',prices:'efx4_prices',stats:'efx4_stats',settings:'efx4_settings',pass:'efx4_admin_pass',logo:'efx4_logo',genel:'efx4_genel',hero:'efx4_hero',services:'efx4_services',trainers:'efx4_trainers'};
 
 const DEFS={
@@ -453,7 +458,8 @@ const ICONS=['🏋️','⚡','🧘','🥊','♀️','🏃','🚴','🤸','💪',
 
 const $=id=>document.getElementById(id);
 const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}};
-const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const FB_KEYS={'efx4_logo':'logo','efx4_genel':'genel','efx4_hero':'hero','efx4_services':'services','efx4_trainers':'trainers','efx4_prices':'prices','efx4_stats':'stats','efx4_settings':'settings','efx4_submissions':'submissions'};
+const save=(k,v)=>{localStorage.setItem(k,JSON.stringify(v));const fk=FB_KEYS[k];if(fk)fbDb.ref(FB_ROOT+'/'+fk).set(v).catch(console.warn)};
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const getPass=()=>localStorage.getItem(K.pass)||'efx4admin';
 
@@ -473,7 +479,8 @@ function confirm(title,text){
 // AUTH
 function checkSess(){const s=load(K.sess,null);if(!s||!s.ok)return false;if(Date.now()-s.ts>12*3600000){localStorage.removeItem(K.sess);return false}return true}
 $('lForm').addEventListener('submit',e=>{e.preventDefault();if($('lUser').value.trim()==='admin'&&$('lPass').value===getPass()){save(K.sess,{ok:true,ts:Date.now()});showApp()}else{const err=$('lErr');err.classList.add('show');setTimeout(()=>err.classList.remove('show'),3000)}});
-function showApp(){$('ls').classList.add('hidden');$('app').classList.remove('hidden');initApp()}
+async function syncFromFirebase(){try{const snap=await fbDb.ref(FB_ROOT).once('value');const data=snap.val()||{};Object.entries(FB_KEYS).forEach(([lk,fk])=>{if(data[fk]!=null)localStorage.setItem(lk,JSON.stringify(data[fk]))});}catch(e){console.warn('Firebase sync:',e)}}
+async function showApp(){$('ls').classList.add('hidden');$('app').classList.remove('hidden');await syncFromFirebase();initApp()}
 function logout(){localStorage.removeItem(K.sess);location.reload()}
 $('logoutBtn').addEventListener('click',logout);
 

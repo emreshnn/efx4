@@ -1087,7 +1087,12 @@
   <span>Bilgi Al · 0534 563 09 85</span>
 </a>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
+  firebase.initializeApp({apiKey:'AIzaSyBjzTWs4f-FMuGqPhJqB20s5tHr9gAAqc8',authDomain:'fastandfit-fa614.firebaseapp.com',databaseURL:'https://fastandfit-fa614-default-rtdb.europe-west1.firebasedatabase.app',projectId:'fastandfit-fa614',storageBucket:'fastandfit-fa614.firebasestorage.app',messagingSenderId:'990251315323',appId:'1:990251315323:web:55fefa9889fa8358d1f2de'});
+  const fbDb = firebase.database();
+  const FB_ROOT = 'efx4';
   // Helpers
   function goto(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
 
@@ -1135,62 +1140,37 @@
     });
   });
 
-  // CMS
+  // CMS — Firebase'den yükle
   function loadCMS() {
-    try {
-      const logo = localStorage.getItem('efx4_logo');
-      if (logo) document.querySelectorAll('.cms-logo').forEach(img => img.src = logo);
-
-      const genel = JSON.parse(localStorage.getItem('efx4_genel') || '{}');
-      if (genel.siteAdi) document.querySelectorAll('.cms-site-name').forEach(el => el.textContent = genel.siteAdi);
-
-      const hero = JSON.parse(localStorage.getItem('efx4_hero') || '{}');
-      if (hero.pretitle) { const el = document.getElementById('cmsHeroPreTitle'); if(el) el.textContent = hero.pretitle; }
-      if (hero.title1 || hero.title2) {
-        const el = document.getElementById('cmsHeroTitle');
-        if (el) el.innerHTML = '<span class="gold-text">' + (hero.title1||'GÜCÜN') + '</span><br>' + (hero.title2||'KRALLĞI');
+    fbDb.ref(FB_ROOT).once('value').then(snap => {
+      const d = snap.val() || {};
+      if (d.logo) document.querySelectorAll('.cms-logo').forEach(img => img.src = d.logo);
+      if (d.genel && d.genel.siteAdi) document.querySelectorAll('.cms-site-name').forEach(el => el.textContent = d.genel.siteAdi);
+      if (d.hero) {
+        const h = d.hero;
+        const pt = document.getElementById('cmsHeroPreTitle'); if (pt && h.pretitle) pt.textContent = h.pretitle;
+        const ht = document.getElementById('cmsHeroTitle');
+        if (ht && (h.title1 || h.title2)) ht.innerHTML = '<span class="gold-text">'+(h.title1||'GÜCÜN')+'</span><br>'+(h.title2||'KRALLĞI');
+        const hd = document.getElementById('cmsHeroDesc'); if (hd && h.desc) hd.textContent = h.desc;
       }
-      if (hero.desc) { const el = document.getElementById('cmsHeroDesc'); if(el) el.textContent = hero.desc; }
-
-      const svcs = JSON.parse(localStorage.getItem('efx4_services') || '[]');
-      svcs.forEach((s, i) => {
-        const n = document.getElementById('svcName'+(i+1));
-        const d = document.getElementById('svcDesc'+(i+1));
-        const ic = document.getElementById('svcIcon'+(i+1));
-        if (n) n.textContent = s.ad;
-        if (d) d.textContent = s.aciklama;
-        if (ic) ic.textContent = s.icon;
+      if (d.services) d.services.forEach((s, i) => {
+        const n=document.getElementById('svcName'+(i+1)), dc=document.getElementById('svcDesc'+(i+1)), ic=document.getElementById('svcIcon'+(i+1));
+        if(n) n.textContent=s.ad; if(dc) dc.textContent=s.aciklama; if(ic) ic.textContent=s.icon;
       });
-
-      const trs = JSON.parse(localStorage.getItem('efx4_trainers') || '[]');
-      trs.forEach((t, i) => {
-        const n = document.getElementById('trName'+(i+1));
-        const r = document.getElementById('trRole'+(i+1));
-        const e = document.getElementById('trExp'+(i+1));
-        const sp = document.getElementById('trSpec'+(i+1));
-        if (n) n.textContent = t.ad;
-        if (r) r.textContent = t.rol;
-        if (e) e.textContent = t.deneyim;
-        if (sp) sp.textContent = t.uzmanlik;
+      if (d.trainers) d.trainers.forEach((t, i) => {
+        const n=document.getElementById('trName'+(i+1)), r=document.getElementById('trRole'+(i+1));
+        const e=document.getElementById('trExp'+(i+1)), sp=document.getElementById('trSpec'+(i+1));
+        if(n) n.textContent=t.ad; if(r) r.textContent=t.rol; if(e) e.textContent=t.deneyim; if(sp) sp.textContent=t.uzmanlik;
       });
-
-      const prices = JSON.parse(localStorage.getItem('efx4_prices') || '[]');
-      prices.forEach((p, i) => {
-        const nameEl = document.getElementById('planName'+(i+1));
-        const priceEl = document.getElementById('planPrice'+(i+1));
-        if (nameEl) nameEl.textContent = p.ad;
-        if (priceEl) priceEl.textContent = p.fiyat;
+      if (d.prices) d.prices.forEach((p, i) => {
+        const nm=document.getElementById('planName'+(i+1)), pr=document.getElementById('planPrice'+(i+1));
+        if(nm) nm.textContent=p.ad; if(pr) pr.textContent=p.fiyat;
       });
-
-      const stats = JSON.parse(localStorage.getItem('efx4_stats') || '[]');
-      const statEls = document.querySelectorAll('.stat-number');
-      stats.forEach((s, i) => {
-        if (statEls[i]) {
-          statEls[i].dataset.count = s.val;
-          statEls[i].dataset.suf = s.suf;
-        }
-      });
-    } catch(_) {}
+      if (d.stats) {
+        const els = document.querySelectorAll('.stat-number');
+        d.stats.forEach((s, i) => { if(els[i]){ els[i].dataset.count=s.val; els[i].dataset.suf=s.suf; } });
+      }
+    }).catch(e => console.warn('CMS yüklenemedi:', e));
   }
   loadCMS();
 
@@ -1199,8 +1179,7 @@
     e.preventDefault();
     try {
       const fd = new FormData(e.target);
-      const subs = JSON.parse(localStorage.getItem('efx4_submissions') || '[]');
-      subs.push({
+      const sub = {
         id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
         ts: Date.now(),
         ad:      fd.get('ad')      || '',
@@ -1210,8 +1189,13 @@
         program: fd.get('program') || '',
         mesaj:   fd.get('mesaj')   || '',
         read: false
-      });
-      localStorage.setItem('efx4_submissions', JSON.stringify(subs));
+      };
+      fbDb.ref(FB_ROOT+'/submissions').once('value').then(snap => {
+        const arr = snap.val();
+        const list = Array.isArray(arr) ? arr : (arr ? Object.values(arr) : []);
+        list.push(sub);
+        fbDb.ref(FB_ROOT+'/submissions').set(list).catch(console.warn);
+      }).catch(() => fbDb.ref(FB_ROOT+'/submissions').set([sub]).catch(console.warn));
     } catch(_) {}
     const btn = e.target.querySelector('.submit-btn');
     btn.textContent = 'GÖNDERİLDİ ◆ TEŞEKKÜRLER';
