@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EFX4 — Yönetim Paneli</title>
+  <title>FAST&FIT — Yönetim Paneli</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Raleway:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -213,7 +213,7 @@
 <!-- LOGIN -->
 <div id="ls">
   <div class="lcard">
-    <div class="llogo"><img src="logo-transparent.png" alt="EFX4"><span class="llogt gt">EFX4 FITNESS</span></div>
+    <div class="llogo"><img src="logo-transparent.png" alt="FAST&FIT"><span class="llogt gt">FAST&FIT</span></div>
     <div class="lsub">◆ Yönetim Paneli ◆</div>
     <form class="lform" id="lForm">
       <div class="lf"><label class="ll">Kullanıcı Adı</label><input class="li" type="text" id="lUser" placeholder="admin" autocomplete="username" required></div>
@@ -229,7 +229,7 @@
 <div id="app" class="hidden">
   <aside class="sb">
     <a href="index.html" class="sbbr" target="_blank">
-      <img src="logo-transparent.png" alt="EFX4"><span class="sbbrt gt">EFX4</span>
+      <img src="logo-transparent.png" alt="FAST&FIT"><span class="sbbrt gt">FAST&FIT</span>
     </a>
     <nav class="sbnav">
       <div class="sbsec">YÖNETİM</div>
@@ -435,7 +435,7 @@ const FB_ROOT='efx4';
 const K={sess:'efx4_session',subs:'efx4_submissions',prices:'efx4_prices',stats:'efx4_stats',settings:'efx4_settings',pass:'efx4_admin_pass',logo:'efx4_logo',genel:'efx4_genel',hero:'efx4_hero',services:'efx4_services',trainers:'efx4_trainers'};
 
 const DEFS={
-  genel:{siteAdi:'EFX4 FITNESS'},
+  genel:{siteAdi:'FAST&FIT'},
   hero:{pretitle:'Sincan / Ankara\'nın Seçkin Spor Merkezi',title1:'GÜCÜN',title2:'KRALLĞI',desc:'Sincan/Ankara\'da Fitness, Personal Training, Pilates, Boks & Kickboks ve Kadınlara Özel Alan ile her hedefe uygun profesyonel antrenman ortamı.'},
   services:[
     {icon:'🏋️',ad:'Fitness & Ağırlık',aciklama:'Son teknoloji ekipmanlarla kişiselleştirilmiş ağırlık antrenmanı. Kas geliştirme, güç artırma ve vücut kompozisyonu için kapsamlı program.'},
@@ -562,7 +562,7 @@ function renderGenel(){
   const g=load(K.genel,DEFS.genel);
   const storedLogo=localStorage.getItem(K.logo);
   $('logoCur').src=storedLogo||'logo-transparent.png';
-  $('siteAdiInp').value=g.siteAdi||'EFX4 FITNESS';
+  $('siteAdiInp').value=g.siteAdi||'FAST&FIT';
   pendingLogo=null;
   $('logoPrev').classList.add('hidden');
   $('lupInner').style.display='';
@@ -588,7 +588,7 @@ $('logoFile').addEventListener('change',e=>{
 $('lupZone').addEventListener('click',()=>$('logoFile').click());
 $('saveLogo').addEventListener('click',()=>{if(!pendingLogo){toast('Önce bir logo seçin.','err');return}localStorage.setItem(K.logo,pendingLogo);$('logoCur').src=pendingLogo;toast('Logo kaydedildi ◆');pendingLogo=null;$('logoFile').value='';$('logoPrev').classList.add('hidden');$('lupInner').style.display=''});
 $('resetLogo').addEventListener('click',async()=>{if(!await confirm('Logoyu Sıfırla','Orijinal logo-transparent.png dosyasına dönülecek.'))return;localStorage.removeItem(K.logo);renderGenel();toast('Logo sıfırlandı.')});
-$('saveSiteAdi').addEventListener('click',()=>{save(K.genel,{siteAdi:$('siteAdiInp').value.trim()||'EFX4 FITNESS'});toast('Site adı kaydedildi ◆')});
+$('saveSiteAdi').addEventListener('click',()=>{save(K.genel,{siteAdi:$('siteAdiInp').value.trim()||'FAST&FIT'});toast('Site adı kaydedildi ◆')});
 $('resetSiteAdi').addEventListener('click',async()=>{if(!await confirm('Sıfırla','Site adı varsayılana dönecek.'))return;save(K.genel,DEFS.genel);renderGenel();toast('Sıfırlandı.')});
 
 // HERO
