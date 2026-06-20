@@ -240,6 +240,7 @@
       <div class="ni" data-sec="hero"><span class="ni-ic">◉</span> Hero Bölümü</div>
       <div class="ni" data-sec="hizmetler"><span class="ni-ic">☰</span> Hizmetler</div>
       <div class="ni" data-sec="egitmenler"><span class="ni-ic">✦</span> Eğitmenler</div>
+      <div class="ni" data-sec="galeri"><span class="ni-ic">◈</span> Galeri</div>
       <div class="ni" data-sec="fiyatlar"><span class="ni-ic">₺</span> Fiyatlar</div>
       <div class="ni" data-sec="istatistik"><span class="ni-ic">↑</span> İstatistikler</div>
       <div class="ni" data-sec="ayarlar"><span class="ni-ic">⚙</span> Ayarlar</div>
@@ -362,11 +363,20 @@
 
       <!-- EĞİTMENLER -->
       <section class="sec" id="sec-egitmenler">
-        <div class="sh"><div class="st">Eğitmen <span class="gt">Kadrosu</span></div><div class="ss">4 eğitmenin bilgilerini düzenle</div></div>
+        <div class="sh"><div class="st">Eğitmen <span class="gt">Kadrosu</span></div><div class="ss">Eğitmenlerin bilgi ve fotoğraflarını düzenle</div></div>
         <div class="cgrid" id="trEd"></div>
         <div style="margin-top:1.4rem;display:flex;gap:.7rem">
           <button class="btn btng" id="saveTrs">Kaydet ◆</button>
           <button class="btn btno" id="resetTrs">Sıfırla</button>
+        </div>
+      </section>
+
+      <!-- GALERİ -->
+      <section class="sec" id="sec-galeri">
+        <div class="sh"><div class="st">Galeri <span class="gt">Fotoğrafları</span></div><div class="ss">Salon görsellerini yükle ve güncelle</div></div>
+        <div class="cgrid" id="galEd"></div>
+        <div style="margin-top:1.4rem">
+          <button class="btn btno" id="resetGal">Görselleri Sıfırla</button>
         </div>
       </section>
 
@@ -432,7 +442,7 @@
 firebase.initializeApp({apiKey:'AIzaSyBjzTWs4f-FMuGqPhJqB20s5tHr9gAAqc8',authDomain:'fastandfit-fa614.firebaseapp.com',databaseURL:'https://fastandfit-fa614-default-rtdb.europe-west1.firebasedatabase.app',projectId:'fastandfit-fa614',storageBucket:'fastandfit-fa614.firebasestorage.app',messagingSenderId:'990251315323',appId:'1:990251315323:web:55fefa9889fa8358d1f2de'});
 const fbDb=firebase.database();
 const FB_ROOT='efx4';
-const K={sess:'efx4_session',subs:'efx4_submissions',prices:'efx4_prices',stats:'efx4_stats',settings:'efx4_settings',pass:'efx4_admin_pass',logo:'efx4_logo',genel:'efx4_genel',hero:'efx4_hero',services:'efx4_services',trainers:'efx4_trainers'};
+const K={sess:'efx4_session',subs:'efx4_submissions',prices:'efx4_prices',stats:'efx4_stats',settings:'efx4_settings',pass:'efx4_admin_pass',logo:'efx4_logo',genel:'efx4_genel',hero:'efx4_hero',services:'efx4_services',trainers:'efx4_trainers',gallery:'efx4_gallery'};
 
 const DEFS={
   genel:{siteAdi:'FAST&FIT'},
@@ -458,7 +468,7 @@ const ICONS=['🏋️','⚡','🧘','🥊','♀️','🏃','🚴','🤸','💪',
 
 const $=id=>document.getElementById(id);
 const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}};
-const FB_KEYS={'efx4_logo':'logo','efx4_genel':'genel','efx4_hero':'hero','efx4_services':'services','efx4_trainers':'trainers','efx4_prices':'prices','efx4_stats':'stats','efx4_settings':'settings','efx4_submissions':'submissions'};
+const FB_KEYS={'efx4_logo':'logo','efx4_genel':'genel','efx4_hero':'hero','efx4_services':'services','efx4_trainers':'trainers','efx4_prices':'prices','efx4_stats':'stats','efx4_settings':'settings','efx4_submissions':'submissions','efx4_gallery':'gallery'};
 const save=(k,v)=>{localStorage.setItem(k,JSON.stringify(v));const fk=FB_KEYS[k];if(fk)fbDb.ref(FB_ROOT+'/'+fk).set(v).catch(console.warn)};
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const getPass=()=>localStorage.getItem(K.pass)||'efx4admin';
@@ -489,14 +499,14 @@ function updateClock(){$('clock').textContent=new Date().toLocaleTimeString('tr-
 setInterval(updateClock,1000);updateClock();
 
 // NAV
-const TITLES={dashboard:'Dashboard',mesajlar:'İletişim Mesajları',genel:'Genel & Logo',hero:'Hero Bölümü',hizmetler:'Hizmet Kartları',egitmenler:'Eğitmen Kadrosu',fiyatlar:'Üyelik Fiyatları',istatistik:'İstatistikler',ayarlar:'Firma Ayarları'};
+const TITLES={dashboard:'Dashboard',mesajlar:'İletişim Mesajları',genel:'Genel & Logo',hero:'Hero Bölümü',hizmetler:'Hizmet Kartları',egitmenler:'Eğitmen Kadrosu',galeri:'Galeri Fotoğrafları',fiyatlar:'Üyelik Fiyatları',istatistik:'İstatistikler',ayarlar:'Firma Ayarları'};
 
 function nav(sec){
   if(!TITLES[sec])return;
   document.querySelectorAll('.ni[data-sec]').forEach(el=>el.classList.toggle('active',el.dataset.sec===sec));
   document.querySelectorAll('.sec').forEach(el=>el.classList.toggle('active',el.id==='sec-'+sec));
   $('tbTit').textContent=TITLES[sec];
-  const fns={dashboard:renderDash,mesajlar:renderMsgs,genel:renderGenel,hero:renderHero,hizmetler:renderSvcs,egitmenler:renderTrs,fiyatlar:renderPrices,istatistik:renderStats,ayarlar:renderSettings};
+  const fns={dashboard:renderDash,mesajlar:renderMsgs,genel:renderGenel,hero:renderHero,hizmetler:renderSvcs,egitmenler:renderTrs,galeri:renderGal,fiyatlar:renderPrices,istatistik:renderStats,ayarlar:renderSettings};
   if(fns[sec])fns[sec]();
 }
 document.addEventListener('click',e=>{const ni=e.target.closest('.ni[data-sec]');if(ni)nav(ni.dataset.sec)});
@@ -560,7 +570,7 @@ $('delAllBtn').addEventListener('click',async()=>{const s=load(K.subs,[]);if(!s.
 let pendingLogo=null;
 function renderGenel(){
   const g=load(K.genel,DEFS.genel);
-  const storedLogo=localStorage.getItem(K.logo);
+  const storedLogo=load(K.logo,null)||localStorage.getItem(K.logo);
   $('logoCur').src=storedLogo||'logo-transparent.png';
   $('siteAdiInp').value=g.siteAdi||'FAST&FIT';
   pendingLogo=null;
@@ -586,8 +596,8 @@ $('logoFile').addEventListener('change',e=>{
   reader.readAsDataURL(file);
 });
 $('lupZone').addEventListener('click',()=>$('logoFile').click());
-$('saveLogo').addEventListener('click',()=>{if(!pendingLogo){toast('Önce bir logo seçin.','err');return}localStorage.setItem(K.logo,pendingLogo);$('logoCur').src=pendingLogo;toast('Logo kaydedildi ◆');pendingLogo=null;$('logoFile').value='';$('logoPrev').classList.add('hidden');$('lupInner').style.display=''});
-$('resetLogo').addEventListener('click',async()=>{if(!await confirm('Logoyu Sıfırla','Orijinal logo-transparent.png dosyasına dönülecek.'))return;localStorage.removeItem(K.logo);renderGenel();toast('Logo sıfırlandı.')});
+$('saveLogo').addEventListener('click',()=>{if(!pendingLogo){toast('Önce bir logo seçin.','err');return}save(K.logo,pendingLogo);$('logoCur').src=pendingLogo;toast('Logo kaydedildi ◆');pendingLogo=null;$('logoFile').value='';$('logoPrev').classList.add('hidden');$('lupInner').style.display=''});
+$('resetLogo').addEventListener('click',async()=>{if(!await confirm('Logoyu Sıfırla','Orijinal logo-transparent.png dosyasına dönülecek.'))return;save(K.logo,null);localStorage.removeItem(K.logo);renderGenel();toast('Logo sıfırlandı.')});
 $('saveSiteAdi').addEventListener('click',()=>{save(K.genel,{siteAdi:$('siteAdiInp').value.trim()||'FAST&FIT'});toast('Site adı kaydedildi ◆')});
 $('resetSiteAdi').addEventListener('click',async()=>{if(!await confirm('Sıfırla','Site adı varsayılana dönecek.'))return;save(K.genel,DEFS.genel);renderGenel();toast('Sıfırlandı.')});
 
@@ -621,22 +631,111 @@ $('saveSvcs').addEventListener('click',()=>{
 $('resetSvcs').addEventListener('click',async()=>{if(!await confirm('Sıfırla','Hizmet kartları varsayılana dönecek.'))return;save(K.services,DEFS.services);renderSvcs();toast('Sıfırlandı.')});
 
 // TRAINERS
+let pendingTrPhotos={};
 function renderTrs(){
   const trs=load(K.trainers,DEFS.trainers);
+  const sils=['🧑','👩','👩'];
   $('trEd').innerHTML=trs.map((t,i)=>`
     <div class="ccard">
       <div class="cnum">0${i+1}</div>
+      <div style="text-align:center;margin-bottom:1rem">
+        <div id="trPhBox${i}" style="width:90px;height:90px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);overflow:hidden;margin:0 auto .7rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem">
+          ${t.foto?`<img src="${t.foto}" style="width:100%;height:100%;object-fit:cover">`:`<span>${sils[i]||'🧑'}</span>`}
+        </div>
+        <label style="display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.12em;padding:.3rem .8rem;background:var(--surface2);color:var(--gray1);border:1px solid var(--border);border-radius:4px;cursor:pointer">
+          FOTOĞRAF SEÇ
+          <input type="file" accept="image/*" data-tri="${i}" class="trPhFile" style="display:none">
+        </label>
+      </div>
       <div class="sf"><label class="slb">Uzmanlık Etiketi</label><input class="si" data-ti="${i}" data-tf="uzmanlik" value="${esc(t.uzmanlik)}"></div>
       <div class="sf"><label class="slb">Ad Soyad</label><input class="si" data-ti="${i}" data-tf="ad" value="${esc(t.ad)}"></div>
       <div class="sf"><label class="slb">Unvan / Rol</label><input class="si" data-ti="${i}" data-tf="rol" value="${esc(t.rol)}"></div>
       <div class="sf"><label class="slb">Deneyim</label><input class="si" data-ti="${i}" data-tf="deneyim" value="${esc(t.deneyim)}"></div>
     </div>`).join('');
+  document.querySelectorAll('.trPhFile').forEach(inp=>{
+    inp.addEventListener('change',e=>{
+      const file=e.target.files[0];if(!file)return;
+      const i=+e.target.dataset.tri;
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        const img=new Image();
+        img.onload=()=>{
+          const canvas=document.createElement('canvas');
+          const ratio=Math.min(1,400/Math.max(img.width,img.height));
+          canvas.width=img.width*ratio;canvas.height=img.height*ratio;
+          canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+          const b64=canvas.toDataURL('image/jpeg',0.8);
+          pendingTrPhotos[i]=b64;
+          const box=$('trPhBox'+i);
+          box.innerHTML=`<img src="${b64}" style="width:100%;height:100%;object-fit:cover">`;
+          toast('Fotoğraf seçildi, Kaydet\'e bas ◆');
+        };
+        img.src=ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  });
 }
 $('saveTrs').addEventListener('click',()=>{
   const trs=load(K.trainers,DEFS.trainers);
   document.querySelectorAll('[data-ti][data-tf]').forEach(el=>{const i=+el.dataset.ti;trs[i][el.dataset.tf]=el.value});
-  save(K.trainers,trs);toast('Eğitmenler kaydedildi ◆')});
-$('resetTrs').addEventListener('click',async()=>{if(!await confirm('Sıfırla','Eğitmen bilgileri varsayılana dönecek.'))return;save(K.trainers,DEFS.trainers);renderTrs();toast('Sıfırlandı.')});
+  Object.entries(pendingTrPhotos).forEach(([i,b64])=>{trs[+i].foto=b64});
+  save(K.trainers,trs);pendingTrPhotos={};toast('Eğitmenler kaydedildi ◆')});
+$('resetTrs').addEventListener('click',async()=>{if(!await confirm('Sıfırla','Eğitmen bilgileri varsayılana dönecek.'))return;save(K.trainers,DEFS.trainers);pendingTrPhotos={};renderTrs();toast('Sıfırlandı.')});
+
+// GALERİ
+const GAL_LABELS=[
+  {tag:'Ana Salon',lbl:'Fitness & Ağırlık Salonu',def:'g1.jpg'},
+  {tag:'Ekipmanlar',lbl:'Makine Salonu',def:'g2.jpg'},
+  {tag:'Kardiyo',lbl:'Kardiyo Alanı',def:'g3.jpg'},
+  {tag:'Serbest Ağırlık',lbl:'Serbest Ağırlık Bölümü',def:'g4.jpg'},
+  {tag:'Ağırlık Makineleri',lbl:'Ağırlık Makineleri',def:'g5.jpg'},
+  {tag:'Kadınlara Özel',lbl:'Kadınlara Özel Alan',def:null}
+];
+function renderGal(){
+  const gal=load(K.gallery,Array(6).fill(null));
+  $('galEd').innerHTML=GAL_LABELS.map((l,i)=>`
+    <div class="ccard">
+      <div class="cnum">0${i+1}</div>
+      <div style="font-size:.63rem;font-weight:700;letter-spacing:.18em;color:var(--gold);margin-bottom:.7rem;text-transform:uppercase">${l.tag}</div>
+      <div id="galPrevBox${i}" style="height:110px;border-radius:6px;background:var(--surface2) ${gal[i]?`url('${gal[i]}') center/cover`:(l.def?`url('${l.def}') center/cover`:'')};border:1px solid var(--border);margin-bottom:.8rem;display:flex;align-items:center;justify-content:center;overflow:hidden">
+        ${!gal[i]&&!l.def?`<span style="color:var(--gray2);font-size:.65rem">Görsel Yok</span>`:''}
+      </div>
+      <label style="display:block;text-align:center;font-size:.6rem;font-weight:700;letter-spacing:.12em;padding:.35rem .7rem;background:var(--surface2);color:var(--gray1);border:1px solid var(--border);border-radius:4px;cursor:pointer">
+        ${gal[i]?'GÜNCELLE ◆':'GÖRSEL YÜKLE ◆'}
+        <input type="file" accept="image/*" data-gi="${i}" class="galFile" style="display:none">
+      </label>
+    </div>`).join('');
+  document.querySelectorAll('.galFile').forEach(inp=>{
+    inp.addEventListener('change',e=>{
+      const file=e.target.files[0];if(!file)return;
+      const i=+e.target.dataset.gi;
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        const img=new Image();
+        img.onload=()=>{
+          const canvas=document.createElement('canvas');
+          const ratio=Math.min(1,900/Math.max(img.width,img.height));
+          canvas.width=img.width*ratio;canvas.height=img.height*ratio;
+          canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+          const b64=canvas.toDataURL('image/jpeg',0.82);
+          const gal=load(K.gallery,Array(6).fill(null));
+          gal[i]=b64;
+          save(K.gallery,gal);
+          $('galPrevBox'+i).style.backgroundImage=`url('${b64}')`;
+          $('galPrevBox'+i).style.backgroundSize='cover';
+          $('galPrevBox'+i).style.backgroundPosition='center';
+          $('galPrevBox'+i).innerHTML='';
+          toast('Görsel kaydedildi ◆');
+          renderGal();
+        };
+        img.src=ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+}
+$('resetGal').addEventListener('click',async()=>{if(!await confirm('Sıfırla','Galeri orijinal salon fotoğraflarına dönecek.'))return;save(K.gallery,Array(6).fill(null));renderGal();toast('Galeri sıfırlandı.')});
 
 // PRICES
 function renderPrices(){

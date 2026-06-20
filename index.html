@@ -789,23 +789,23 @@
     </div>
   </div>
   <div class="gallery-grid">
-    <div class="gal-card reveal" style="background-image:url('g1.jpg')">
+    <div class="gal-card reveal" id="galCard0" style="background-image:url('g1.jpg')">
       <div class="gal-tag">Ana Salon</div>
       <div class="gal-label">Fitness & Ağırlık Salonu</div>
     </div>
-    <div class="gal-card reveal rd1" style="background-image:url('g2.jpg')">
+    <div class="gal-card reveal rd1" id="galCard1" style="background-image:url('g2.jpg')">
       <div class="gal-tag">Ekipmanlar</div>
       <div class="gal-label">Makine Salonu</div>
     </div>
-    <div class="gal-card reveal rd2" style="background-image:url('g3.jpg')">
+    <div class="gal-card reveal rd2" id="galCard2" style="background-image:url('g3.jpg')">
       <div class="gal-tag">Kardiyo</div>
       <div class="gal-label">Kardiyo Alanı</div>
     </div>
-    <div class="gal-card reveal rd1" style="background-image:url('g4.jpg')">
+    <div class="gal-card reveal rd1" id="galCard3" style="background-image:url('g4.jpg')">
       <div class="gal-tag">Serbest Ağırlık</div>
       <div class="gal-label">Serbest Ağırlık Bölümü</div>
     </div>
-    <div class="gal-card reveal rd2" style="background-image:url('g5.jpg')">
+    <div class="gal-card reveal rd2" id="galCard4" style="background-image:url('g5.jpg')">
       <div class="gal-tag">Ağırlık</div>
       <div class="gal-label">Ağırlık Makineleri</div>
     </div>
@@ -893,7 +893,7 @@
   </div>
   <div class="trainers-grid">
     <div class="trainer-card reveal">
-      <div class="trainer-photo tp1">
+      <div class="trainer-photo tp1" id="trPhoto1">
         <div class="trainer-photo-inner"><div class="t-sil">🧑</div></div>
       </div>
       <div class="t-spec" id="trSpec1">Fitness</div>
@@ -906,7 +906,7 @@
       </div>
     </div>
     <div class="trainer-card reveal rd1">
-      <div class="trainer-photo tp2">
+      <div class="trainer-photo tp2" id="trPhoto2">
         <div class="trainer-photo-inner"><div class="t-sil">👩</div></div>
       </div>
       <div class="t-spec" id="trSpec2">Pilates</div>
@@ -919,7 +919,7 @@
       </div>
     </div>
     <div class="trainer-card reveal rd2">
-      <div class="trainer-photo tp3">
+      <div class="trainer-photo tp3" id="trPhoto3">
         <div class="trainer-photo-inner"><div class="t-sil">👩</div></div>
       </div>
       <div class="t-spec" id="trSpec3">Boks</div>
@@ -1161,6 +1161,13 @@
         const n=document.getElementById('trName'+(i+1)), r=document.getElementById('trRole'+(i+1));
         const e=document.getElementById('trExp'+(i+1)), sp=document.getElementById('trSpec'+(i+1));
         if(n) n.textContent=t.ad; if(r) r.textContent=t.rol; if(e) e.textContent=t.deneyim; if(sp) sp.textContent=t.uzmanlik;
+        if(t.foto){
+          const ph=document.getElementById('trPhoto'+(i+1));
+          if(ph){ph.style.backgroundImage=`url('${t.foto}')`;ph.style.backgroundSize='cover';ph.style.backgroundPosition='center top';}
+        }
+      });
+      if (d.gallery) d.gallery.forEach((img, i) => {
+        if(img){const c=document.getElementById('galCard'+i);if(c)c.style.backgroundImage=`url('${img}')`;}
       });
       if (d.prices) d.prices.forEach((p, i) => {
         const nm=document.getElementById('planName'+(i+1)), pr=document.getElementById('planPrice'+(i+1));
