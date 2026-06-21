@@ -204,6 +204,32 @@
 
     /* PASS ROW */
     .passrow{display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end;max-width:560px}
+
+    /* MOBİL */
+    .hmbtn{display:none;background:none;border:none;cursor:pointer;padding:.4rem;color:var(--cream);font-size:1.2rem;line-height:1}
+    .sbov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
+    @media(max-width:768px){
+      :root{--sw:260px}
+      .hmbtn{display:flex;align-items:center;justify-content:center}
+      .sb{position:fixed;left:0;top:0;height:100vh;z-index:100;transform:translateX(-100%);transition:transform .25s ease}
+      .sb.open{transform:translateX(0)}
+      .sbov.open{display:block}
+      .mc{width:100%}
+      .cnt{padding:1rem}
+      .dstats{grid-template-columns:1fr 1fr}
+      .dgrid{grid-template-columns:1fr}
+      .cgrid{grid-template-columns:1fr!important}
+      .ped{grid-template-columns:1fr!important}
+      .sfrow{grid-template-columns:1fr!important}
+      .passrow{grid-template-columns:1fr;max-width:100%}
+      .sh{margin-bottom:1.2rem}
+      .st{font-size:1.1rem}
+    }
+    @media(max-width:480px){
+      .dstats{grid-template-columns:1fr}
+      .cnt{padding:.75rem}
+      .tb{padding:.75rem 1rem}
+    }
   </style>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
@@ -227,7 +253,8 @@
 
 <!-- APP -->
 <div id="app" class="hidden">
-  <aside class="sb">
+  <div class="sbov" id="sbov"></div>
+  <aside class="sb" id="sb">
     <a href="index.html" class="sbbr" target="_blank">
       <img src="logo-transparent.png" alt="FAST&FIT"><span class="sbbrt gt">FAST&FIT</span>
     </a>
@@ -253,7 +280,10 @@
 
   <div class="mc">
     <div class="tb">
-      <div class="tbt" id="tbTit">Dashboard</div>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <button class="hmbtn" id="hmbtn">☰</button>
+        <div class="tbt" id="tbTit">Dashboard</div>
+      </div>
       <div class="tbu"><div class="tbdot"></div><span>admin</span><span class="tbc" id="clock"></span></div>
     </div>
     <div class="cnt">
@@ -771,6 +801,13 @@ function renderSettings(){
 $('saveSettings').addEventListener('click',()=>{const s=load(K.settings,DEFS.settings);document.querySelectorAll('[data-sk]').forEach(el=>{s[el.dataset.sk]=el.value});save(K.settings,s);toast('Ayarlar kaydedildi ◆')});
 $('resetSettings').addEventListener('click',async()=>{if(!await confirm('Sıfırla','İletişim bilgileri varsayılana dönecek.'))return;save(K.settings,DEFS.settings);renderSettings();toast('Sıfırlandı.')});
 $('changePass').addEventListener('click',()=>{const np=$('nPass').value,nc=$('nPassC').value;if(!np){toast('Şifre boş olamaz.','err');return}if(np!==nc){toast('Şifreler eşleşmiyor.','err');return}if(np.length<4){toast('En az 4 karakter olmalı.','err');return}localStorage.setItem(K.pass,np);$('nPass').value='';$('nPassC').value='';toast('Şifre değiştirildi.');setTimeout(logout,2200)});
+
+// MOBİL SIDEBAR
+function openSb(){$('sb').classList.add('open');$('sbov').classList.add('open')}
+function closeSb(){$('sb').classList.remove('open');$('sbov').classList.remove('open')}
+$('hmbtn').addEventListener('click',openSb);
+$('sbov').addEventListener('click',closeSb);
+document.addEventListener('click',e=>{if(e.target.closest('.ni[data-sec]')&&window.innerWidth<=768)closeSb()});
 
 function initApp(){updateBadge();renderDash()}
 if(checkSess())showApp();
