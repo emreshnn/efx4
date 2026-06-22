@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fastandfit.com.tr/sitemap.xml
