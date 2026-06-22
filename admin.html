@@ -209,21 +209,27 @@
     .hmbtn{display:none;background:none;border:none;cursor:pointer;padding:.4rem;color:var(--cream);font-size:1.2rem;line-height:1}
     .sbov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
     @media(max-width:768px){
-      :root{--sw:260px}
+      :root{--sw:280px}
       .hmbtn{display:flex;align-items:center;justify-content:center}
-      .sb{position:fixed;left:0;top:0;height:100vh;z-index:100;transform:translateX(-100%);transition:transform .25s ease}
+      .sb{position:fixed;left:0;top:0;height:100vh;z-index:100;transform:translateX(-100%);transition:transform .25s ease;display:flex;flex-direction:column}
       .sb.open{transform:translateX(0)}
       .sbov.open{display:block}
+      .sbnav{flex:1;overflow-y:auto;min-height:0}
+      .sbft{flex-shrink:0;position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--border)}
       .mc{width:100%}
       .cnt{padding:1rem}
       .dstats{grid-template-columns:1fr 1fr}
       .dgrid{grid-template-columns:1fr}
       .cgrid{grid-template-columns:1fr!important}
       .ped{grid-template-columns:1fr!important}
-      .sfrow{grid-template-columns:1fr!important}
+      .sed{grid-template-columns:1fr!important}
+      .sg{grid-template-columns:1fr!important}
+      .sf.full{grid-column:span 1!important}
       .passrow{grid-template-columns:1fr;max-width:100%}
       .sh{margin-bottom:1.2rem}
       .st{font-size:1.1rem}
+      table{font-size:.75rem}
+      th,td{padding:.5rem .6rem}
     }
     @media(max-width:480px){
       .dstats{grid-template-columns:1fr}
