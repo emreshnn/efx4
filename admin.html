@@ -211,13 +211,14 @@
     @media(max-width:768px){
       :root{--sw:280px}
       .hmbtn{display:flex;align-items:center;justify-content:center}
-      .sb{position:fixed;left:0;top:0;height:100vh;z-index:100;transform:translateX(-100%);transition:transform .25s ease;display:flex;flex-direction:column}
+      #app{display:block}
+      .sb{position:fixed;left:0;top:0;height:100vh;z-index:100;transform:translateX(-100%);transition:transform .25s ease;display:flex;flex-direction:column;width:var(--sw)}
       .sb.open{transform:translateX(0)}
       .sbov.open{display:block}
       .sbnav{flex:1;overflow-y:auto;min-height:0}
       .sbft{flex-shrink:0;position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--border)}
-      .mc{width:100%}
-      .cnt{padding:1rem}
+      .mc{position:fixed;left:0;top:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;overflow:hidden}
+      .cnt{padding:1rem;overflow-x:hidden}
       .dstats{grid-template-columns:1fr 1fr}
       .dgrid{grid-template-columns:1fr}
       .cgrid{grid-template-columns:1fr!important}
@@ -230,11 +231,11 @@
       .st{font-size:1.1rem}
       table{font-size:.75rem}
       th,td{padding:.5rem .6rem}
+      .tb{padding:.75rem 1rem}
     }
     @media(max-width:480px){
       .dstats{grid-template-columns:1fr}
-      .cnt{padding:.75rem}
-      .tb{padding:.75rem 1rem}
+      .cnt{padding:.6rem}
     }
   </style>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
