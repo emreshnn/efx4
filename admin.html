@@ -219,30 +219,59 @@
       .sbft{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom,0px)}
       .mc{position:fixed;left:0;top:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;overflow:hidden}
       .cnt{flex:1;overflow-y:auto;overflow-x:hidden;padding:.75rem;-webkit-overflow-scrolling:touch}
+      /* Login */
+      .lcard{padding:1.75rem;margin:.75rem}
+      /* Dashboard */
       .dstats{grid-template-columns:1fr 1fr}
       .ds{padding:1rem}
-      .dsv{font-size:1.5rem}
+      .dsv{font-size:1.4rem}
+      .dsl{font-size:.58rem}
       .dgrid{grid-template-columns:1fr}
+      /* Content grids */
       .cgrid{grid-template-columns:1fr!important}
       .ped{grid-template-columns:1fr!important}
       .sed{grid-template-columns:1fr!important}
       .sg{grid-template-columns:1fr!important}
       .sf.full{grid-column:span 1!important}
-      .passrow{grid-template-columns:1fr;max-width:100%}
-      .sh{margin-bottom:1rem}
-      .st{font-size:1.1rem}
-      table{font-size:.75rem;min-width:0}
-      th,td{padding:.45rem .5rem}
-      .tb{padding:.7rem .9rem}
-      .tda{flex-wrap:wrap;gap:.25rem}
-      .bsm{padding:.22rem .45rem;font-size:.63rem}
-      .card[style*="padding:2rem"]{padding:1.25rem!important}
+      .passrow{grid-template-columns:1fr 1fr;max-width:100%}
+      /* Logo upload grid */
+      .logo-upload-grid{grid-template-columns:1fr!important;gap:1rem!important}
+      /* Cards */
+      .card[style*="padding:2rem"]{padding:1.1rem!important}
       .card[style*="max-width"]{max-width:100%!important}
+      .ccard{padding:1.25rem}
+      .pec{padding:1.25rem}
+      .sec2{padding:1.1rem}
+      /* Inputs */
+      .priceinp{font-size:1.1rem}
+      .numinp{font-size:1.4rem}
+      /* Section headers */
+      .sh{margin-bottom:1rem}
+      .st{font-size:1rem}
+      .ss{font-size:.77rem}
+      /* Table */
+      table{font-size:.72rem;min-width:0}
+      th,td{padding:.4rem .45rem}
+      .tda{flex-wrap:wrap;gap:.25rem}
+      .bsm{padding:.2rem .4rem;font-size:.6rem}
+      /* Topbar */
+      .tb{padding:.65rem .85rem}
+      .tbt{font-size:.78rem}
+      .tbc{display:none}
+      /* Buttons */
+      .btn{padding:.7rem 1.25rem;font-size:.7rem;letter-spacing:.14em}
+      /* Toast */
+      .toast{right:1rem;bottom:1rem;left:1rem;max-width:none;min-width:0}
+      /* Filter tabs */
+      .ftabs{display:flex;width:100%}
+      .ftab{flex:1;text-align:center;padding:.45rem .5rem;font-size:.65rem}
     }
     @media(max-width:480px){
       .dstats{grid-template-columns:1fr}
       .cnt{padding:.5rem}
       .ds{padding:.85rem}
+      .passrow{grid-template-columns:1fr}
+      .lcard{padding:1.25rem;margin:.5rem}
     }
   </style>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -339,7 +368,7 @@
         <div class="sh"><div class="st">Genel <span class="gt">& Logo</span></div><div class="ss">Logo ve site adını düzenle</div></div>
         <div class="card" style="padding:2rem;max-width:740px;margin-bottom:1.75rem">
           <div style="font-size:.63rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gray2);margin-bottom:1.25rem">LOGO</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
+          <div class="logo-upload-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
             <div>
               <div class="slb" style="margin-bottom:.65rem">Mevcut Logo</div>
               <div style="background:var(--bg);padding:1.25rem;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;min-height:100px">
