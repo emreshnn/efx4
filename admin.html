@@ -503,10 +503,10 @@ const ICONS=['🏋️','⚡','🧘','🥊','♀️','🏃','🚴','🤸','💪',
 
 const $=id=>document.getElementById(id);
 const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}};
-const FB_KEYS={'efx4_logo':'logo','efx4_genel':'genel','efx4_hero':'hero','efx4_services':'services','efx4_trainers':'trainers','efx4_prices':'prices','efx4_stats':'stats','efx4_settings':'settings','efx4_submissions':'submissions','efx4_gallery':'gallery'};
+const FB_KEYS={'efx4_logo':'logo','efx4_genel':'genel','efx4_hero':'hero','efx4_services':'services','efx4_trainers':'trainers','efx4_prices':'prices','efx4_stats':'stats','efx4_settings':'settings','efx4_submissions':'submissions','efx4_gallery':'gallery','efx4_admin_pass':'pass'};
 const save=(k,v)=>{localStorage.setItem(k,JSON.stringify(v));const fk=FB_KEYS[k];if(fk)fbDb.ref(FB_ROOT+'/'+fk).set(v).catch(console.warn)};
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const getPass=()=>localStorage.getItem(K.pass)||'efx4admin';
+const getPass=()=>{const v=localStorage.getItem(K.pass);try{return v?JSON.parse(v):('efx4admin')}catch{return v||'efx4admin'}};
 
 let toastT;
 function toast(msg,type=''){const el=$('toast');el.textContent=msg;el.className='toast show'+(type?' '+type:'');clearTimeout(toastT);toastT=setTimeout(()=>el.className='toast',2800)}
@@ -805,7 +805,7 @@ function renderSettings(){
 }
 $('saveSettings').addEventListener('click',()=>{const s=load(K.settings,DEFS.settings);document.querySelectorAll('[data-sk]').forEach(el=>{s[el.dataset.sk]=el.value});save(K.settings,s);toast('Ayarlar kaydedildi ◆')});
 $('resetSettings').addEventListener('click',async()=>{if(!await confirm('Sıfırla','İletişim bilgileri varsayılana dönecek.'))return;save(K.settings,DEFS.settings);renderSettings();toast('Sıfırlandı.')});
-$('changePass').addEventListener('click',()=>{const np=$('nPass').value,nc=$('nPassC').value;if(!np){toast('Şifre boş olamaz.','err');return}if(np!==nc){toast('Şifreler eşleşmiyor.','err');return}if(np.length<4){toast('En az 4 karakter olmalı.','err');return}localStorage.setItem(K.pass,np);$('nPass').value='';$('nPassC').value='';toast('Şifre değiştirildi.');setTimeout(logout,2200)});
+$('changePass').addEventListener('click',()=>{const np=$('nPass').value,nc=$('nPassC').value;if(!np){toast('Şifre boş olamaz.','err');return}if(np!==nc){toast('Şifreler eşleşmiyor.','err');return}if(np.length<4){toast('En az 4 karakter olmalı.','err');return}save(K.pass,np);$('nPass').value='';$('nPassC').value='';toast('Şifre değiştirildi.');setTimeout(logout,2200)});
 
 // MOBİL SIDEBAR
 function openSb(){$('sb').classList.add('open');$('sbov').classList.add('open')}
