@@ -717,9 +717,10 @@ function renderTrs(){
           ${t.foto?`<img src="${t.foto}" style="width:100%;height:100%;object-fit:cover">`:`<span>${sils[i]||'🧑'}</span>`}
         </div>
         <label style="display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.12em;padding:.3rem .8rem;background:var(--surface2);color:var(--gray1);border:1px solid var(--border);border-radius:4px;cursor:pointer">
-          FOTOĞRAF SEÇ
+          ${t.foto?'DEĞİŞTİR':'FOTOĞRAF SEÇ'}
           <input type="file" accept="image/*" data-tri="${i}" class="trPhFile" style="display:none">
         </label>
+        ${t.foto?`<button class="bsm danger" onclick="removeTrPhoto(${i})" style="display:block;margin:.45rem auto 0;font-size:.58rem">✕ Fotoğrafı Kaldır</button>`:''}
       </div>
       <div class="sf"><label class="slb">Uzmanlık Etiketi</label><input class="si" data-ti="${i}" data-tf="uzmanlik" value="${esc(t.uzmanlik)}"></div>
       <div class="sf"><label class="slb">Ad Soyad</label><input class="si" data-ti="${i}" data-tf="ad" value="${esc(t.ad)}"></div>
@@ -756,6 +757,7 @@ $('saveTrs').addEventListener('click',()=>{
   Object.entries(pendingTrPhotos).forEach(([i,b64])=>{trs[+i].foto=b64});
   save(K.trainers,trs);pendingTrPhotos={};toast('Eğitmenler kaydedildi ◆')});
 $('resetTrs').addEventListener('click',async()=>{if(!await confirm('Sıfırla','Eğitmen bilgileri varsayılana dönecek.'))return;save(K.trainers,DEFS.trainers);pendingTrPhotos={};renderTrs();toast('Sıfırlandı.')});
+function removeTrPhoto(i){const trs=load(K.trainers,DEFS.trainers);trs[i].foto=null;delete pendingTrPhotos[i];save(K.trainers,trs);renderTrs();toast('Fotoğraf kaldırıldı ◆')}
 
 // GALERİ
 const GAL_LABELS=[
@@ -776,9 +778,10 @@ function renderGal(){
         ${!gal[i]&&!l.def?`<span style="color:var(--gray2);font-size:.65rem">Görsel Yok</span>`:''}
       </div>
       <label style="display:block;text-align:center;font-size:.6rem;font-weight:700;letter-spacing:.12em;padding:.35rem .7rem;background:var(--surface2);color:var(--gray1);border:1px solid var(--border);border-radius:4px;cursor:pointer">
-        ${gal[i]?'GÜNCELLE ◆':'GÖRSEL YÜKLE ◆'}
+        ${gal[i]?'DEĞİŞTİR ◆':'GÖRSEL YÜKLE ◆'}
         <input type="file" accept="image/*" data-gi="${i}" class="galFile" style="display:none">
       </label>
+      ${gal[i]?`<button class="bsm danger" onclick="removeGal(${i})" style="display:block;width:100%;margin-top:.4rem;font-size:.6rem;text-align:center">✕ Görseli Kaldır</button>`:''}
     </div>`).join('');
   document.querySelectorAll('.galFile').forEach(inp=>{
     inp.addEventListener('change',e=>{
@@ -810,6 +813,7 @@ function renderGal(){
   });
 }
 $('resetGal').addEventListener('click',async()=>{if(!await confirm('Sıfırla','Galeri orijinal salon fotoğraflarına dönecek.'))return;save(K.gallery,Array(6).fill(null));renderGal();toast('Galeri sıfırlandı.')});
+function removeGal(i){const gal=load(K.gallery,Array(6).fill(null));gal[i]=null;save(K.gallery,gal);renderGal();toast('Görsel kaldırıldı ◆')}
 
 // PRICES
 function renderPrices(){
