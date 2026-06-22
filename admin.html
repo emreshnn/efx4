@@ -530,8 +530,10 @@ function confirm(title,text){
 }
 
 // AUTH
-function checkSess(){const s=load(K.sess,null);if(!s||!s.ok)return false;if(Date.now()-s.ts>12*3600000){localStorage.removeItem(K.sess);return false}return true}
-$('lForm').addEventListener('submit',e=>{e.preventDefault();if($('lUser').value.trim()==='admin'&&$('lPass').value===getPass()){save(K.sess,{ok:true,ts:Date.now()});showApp()}else{const err=$('lErr');err.classList.add('show');setTimeout(()=>err.classList.remove('show'),3000)}});
+async function getRemotePass(){try{const s=await fbDb.ref(FB_ROOT+'/pass').once('value');const v=s.val();if(v!=null){localStorage.setItem(K.pass,JSON.stringify(v));return v}}catch(e){}return getPass()}
+async function getSessV(){try{const s=await fbDb.ref(FB_ROOT+'/sess_v').once('value');return s.val()||0}catch(e){return null}}
+async function checkAndShowApp(){const s=load(K.sess,null);if(!s||!s.ok){return}if(Date.now()-s.ts>8*3600000){localStorage.removeItem(K.sess);return}try{const rv=await getSessV();if(rv!==null&&(s.sv||0)!==rv){localStorage.removeItem(K.sess);return}}catch(e){}showApp()}
+$('lForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.target.querySelector('button');btn.disabled=true;const cp=await getRemotePass();btn.disabled=false;const sv=await getSessV()||0;if($('lUser').value.trim()==='admin'&&$('lPass').value===cp){localStorage.setItem(K.sess,JSON.stringify({ok:true,ts:Date.now(),sv}));showApp()}else{const err=$('lErr');err.classList.add('show');setTimeout(()=>err.classList.remove('show'),3000)}});
 async function syncFromFirebase(){try{const snap=await fbDb.ref(FB_ROOT).once('value');const data=snap.val()||{};Object.entries(FB_KEYS).forEach(([lk,fk])=>{if(data[fk]!=null)localStorage.setItem(lk,JSON.stringify(data[fk]))});}catch(e){console.warn('Firebase sync:',e)}}
 async function showApp(){$('ls').classList.add('hidden');$('app').classList.remove('hidden');await syncFromFirebase();initApp()}
 function logout(){localStorage.removeItem(K.sess);location.reload()}
@@ -813,7 +815,7 @@ function renderSettings(){
 }
 $('saveSettings').addEventListener('click',()=>{const s=load(K.settings,DEFS.settings);document.querySelectorAll('[data-sk]').forEach(el=>{s[el.dataset.sk]=el.value});save(K.settings,s);toast('Ayarlar kaydedildi ◆')});
 $('resetSettings').addEventListener('click',async()=>{if(!await confirm('Sıfırla','İletişim bilgileri varsayılana dönecek.'))return;save(K.settings,DEFS.settings);renderSettings();toast('Sıfırlandı.')});
-$('changePass').addEventListener('click',()=>{const np=$('nPass').value,nc=$('nPassC').value;if(!np){toast('Şifre boş olamaz.','err');return}if(np!==nc){toast('Şifreler eşleşmiyor.','err');return}if(np.length<4){toast('En az 4 karakter olmalı.','err');return}save(K.pass,np);$('nPass').value='';$('nPassC').value='';toast('Şifre değiştirildi.');setTimeout(logout,2200)});
+$('changePass').addEventListener('click',()=>{const np=$('nPass').value,nc=$('nPassC').value;if(!np){toast('Şifre boş olamaz.','err');return}if(np!==nc){toast('Şifreler eşleşmiyor.','err');return}if(np.length<4){toast('En az 4 karakter olmalı.','err');return}save(K.pass,np);fbDb.ref(FB_ROOT+'/sess_v').set(Date.now()).catch(console.warn);$('nPass').value='';$('nPassC').value='';toast('Şifre değiştirildi — tüm cihazlar çıkış yapacak.');setTimeout(logout,2200)});
 
 // MOBİL SIDEBAR
 function openSb(){$('sb').classList.add('open');$('sbov').classList.add('open')}
@@ -823,7 +825,7 @@ $('sbov').addEventListener('click',closeSb);
 document.addEventListener('click',e=>{if(e.target.closest('.ni[data-sec]')&&window.innerWidth<=768)closeSb()});
 
 function initApp(){updateBadge();renderDash()}
-if(checkSess())showApp();
+checkAndShowApp();
 </script>
 </body>
 </html>
