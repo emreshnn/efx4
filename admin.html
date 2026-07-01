@@ -533,7 +533,7 @@ const DEFS={
   ],
   prices:[{id:'temel',ad:'Temel Plan',fiyat:499},{id:'pro',ad:'Pro Plan',fiyat:799},{id:'elite',ad:'Elite Plan',fiyat:1199}],
   stats:[{id:'uyeler',label:'Aktif Üye',val:500,suf:'+'},{id:'egitmenler',label:'Uzman Eğitmen',val:3,suf:'+'},{id:'alan',label:'Kapalı Alan',val:850,suf:'m²'},{id:'yil',label:'Yıl Tecrübe',val:6,suf:'+'}],
-  settings:{adres:'Menderes Mah. Melih Gökçek Blv. No:39/A/B, 06946 Sincan / Ankara',telefon:'+90 534 563 09 85',email:'info@efxfitness.com.tr',saatler:'Her gün 10:00 — 23:00',instagram:'@efxteamm'}
+  settings:{adres:'Menderes Mah. Melih Gökçek Blv. No:39/A/B, 06946 Sincan / Ankara',telefon:'+90 534 563 09 85',email:'info@efxfitness.com.tr',saatler:'Her gün 10:00 — 23:00',instagram:'fastfitgym1',facebook:'',youtube:'',tiktok:''}
 };
 
 const ICONS=['🏋️','⚡','🧘','🥊','♀️','🏃','🚴','🤸','💪','🔥','🎯','🏊'];
@@ -841,7 +841,7 @@ $('saveStats').addEventListener('click',()=>{const st=load(K.stats,DEFS.stats);d
 $('resetStats').addEventListener('click',async()=>{if(!await confirm('Sıfırla','İstatistikler varsayılana dönecek.'))return;save(K.stats,DEFS.stats);renderStats();toast('Sıfırlandı.')});
 
 // SETTINGS
-const SF=[{k:'adres',lbl:'Adres',type:'textarea',full:true},{k:'telefon',lbl:'Telefon',type:'text'},{k:'email',lbl:'E-posta',type:'email'},{k:'saatler',lbl:'Çalışma Saatleri',type:'text'},{k:'instagram',lbl:'Instagram',type:'text'}];
+const SF=[{k:'adres',lbl:'Adres',type:'textarea',full:true},{k:'telefon',lbl:'Telefon',type:'text'},{k:'email',lbl:'E-posta',type:'email'},{k:'saatler',lbl:'Çalışma Saatleri',type:'text'},{k:'instagram',lbl:'Instagram (kullanıcı adı)',type:'text'},{k:'facebook',lbl:'Facebook (kullanıcı adı veya link)',type:'text'},{k:'youtube',lbl:'YouTube (kanal linki)',type:'text'},{k:'tiktok',lbl:'TikTok (kullanıcı adı)',type:'text'}];
 function renderSettings(){
   const s=load(K.settings,DEFS.settings);
   $('settingsForm').innerHTML=SF.map(f=>`<div class="sf ${f.full?'full':''}"><label class="slb">${f.lbl}</label>${f.type==='textarea'?`<textarea class="sta" data-sk="${f.k}" rows="2">${esc(s[f.k]||'')}</textarea>`:`<input class="si" type="${f.type}" data-sk="${f.k}" value="${esc(s[f.k]||'')}">`}</div>`).join('');
