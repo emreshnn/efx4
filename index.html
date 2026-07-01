@@ -1054,7 +1054,7 @@
       </a>
       <p class="footer-tagline">Sincan/Ankara'nın en prestijli spor salonunda limitlerini aş. Fitness, Pilates, Boks & Kickboks — Kadınlara Ayrı Çalışma Alanı.</p>
       <div class="footer-social">
-        <a href="https://instagram.com/efxteamm" target="_blank">IG</a><a href="#">FB</a><a href="#">YT</a>
+        <a id="footerInstagram" href="https://instagram.com/efxteamm" target="_blank">IG</a><a href="#">FB</a><a href="#">YT</a>
       </div>
     </div>
     <div>
@@ -1193,6 +1193,11 @@
       if (d.stats) {
         const els = document.querySelectorAll('.stat-number');
         d.stats.forEach((s, i) => { if(els[i]){ els[i].dataset.count=s.val; els[i].dataset.suf=s.suf; } });
+      }
+      if (d.settings && d.settings.instagram) {
+        const ig = d.settings.instagram.trim();
+        const igEl = document.getElementById('footerInstagram');
+        if (igEl) igEl.href = ig.startsWith('http') ? ig : 'https://instagram.com/' + ig.replace('@','');
       }
     }).catch(e => console.warn('CMS yüklenemedi:', e));
   }
